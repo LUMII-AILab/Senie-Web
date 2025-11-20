@@ -2,6 +2,7 @@ package lv.ailab.senie.rest
 
 import lv.ailab.senie.db.entities.Book
 import lv.ailab.senie.db.entities.Page
+import lv.ailab.senie.utils.urlEncode
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
@@ -48,7 +49,7 @@ class FacsimileClient(
         logger.debug("Looking for facsimile image for ${book.fullSource}, page ${page.displayName} (${page.order})...")
         return permutations.firstNotNullOfOrNull { (length, extension) ->
             val fileName = "${page.displayName}".padStart(length, '0') + ".$extension"
-            val fileUrl = "$dirUrl/$fileName"
+            val fileUrl = "$dirUrl/${fileName.urlEncode()}"
             val isFound = restClient
                 .head().uri(fileUrl)
                 .retrieve()
