@@ -68,11 +68,13 @@
           </tr>
         </table>
         <div>
-          <img
-            th:if="${facsimile} != null"
-            th:src="${facsimile}"
-            alt="Rakstu darba oriģināla faksimils"
-          >
+          <a th:if="${facsimile} != null" th:href="${facsimile}">
+            <img
+              th:if="${facsimile} != null"
+              th:src="${facsimile}"
+              alt="Rakstu darba oriģināla faksimils"
+            >
+          </a>
         </div>
       </div>
 
