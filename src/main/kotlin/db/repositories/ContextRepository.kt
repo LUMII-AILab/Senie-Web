@@ -4,5 +4,7 @@ import lv.ailab.senie.db.entities.Content
 import org.springframework.data.repository.CrudRepository
 
 interface ContentRepository : CrudRepository<Content, Int> {
+    fun findByAddress(address: String): Content?
+
     fun findAllBySourceAndPageSortOrderIn(source: String, pageOrders: Iterable<Int>): List<Content>
 }
