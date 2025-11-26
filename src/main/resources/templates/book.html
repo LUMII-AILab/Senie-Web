@@ -54,7 +54,7 @@
       </nav>
 
       <!-- Page content -->
-      <div id="pageContent">
+      <div id="pageContent" translate="no">
         <table>
           <tr th:each="line : ${lines}">
             <td class="address">
@@ -68,11 +68,13 @@
           </tr>
         </table>
         <div>
-          <img
-            th:if="${facsimile} != null"
-            th:src="${facsimile}"
-            alt="Rakstu darba oriģināla faksimils"
-          >
+          <a th:if="${facsimile} != null" th:href="${facsimile}">
+            <img
+              th:if="${facsimile} != null"
+              th:src="${facsimile}"
+              alt="Rakstu darba oriģināla faksimils"
+            >
+          </a>
         </div>
       </div>
 
