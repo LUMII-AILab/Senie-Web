@@ -1,4 +1,10 @@
 #book {
+    h1 {
+        & a {
+            font-size: 66%;
+        }
+    }
+
     nav.books, nav.pages, #pageContent {
         display: flex;
     }

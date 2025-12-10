@@ -22,7 +22,7 @@ class BibliographyController(
 
         val currentBook = bookRepo.findByFullSource(source) ?: throw bookNotFound(source)
         val collection = currentBook.collectionCode?.let(bookRepo::findCollection)
-        model.addAttribute("pageTitle", collection?.displayTitle ?: currentBook.displayTitle)
+        var pageTitle = currentBook.displayTitle
         model.addAttribute("collection", collection)
         model.addAttribute("currentBook", currentBook)
 

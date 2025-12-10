@@ -2,8 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: page(~{::main})}">
 <main id="biblio">
   <section>
-    <h1 th:text="${pageTitle}">Grāmata (Ab1234_CD)</h1>
-    <p><a href="/book/Ab1234_BC" th:href="|/books/${currentBook.fullSource}">Grāmatas saturs</a></p>
+    <h1>
+      Bibliogrāfija (<a
+            href="/book/Ab1234_BC" th:href="|/books/${currentBook.fullSource}"
+            th:text="${currentBook.fullSource}">Ab1234_CD></a>)
+    </h1>
     <div th:if="${collection} != null">
       <h2>Avots</h2>
       <ul>

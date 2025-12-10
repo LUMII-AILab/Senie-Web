@@ -39,6 +39,17 @@ td {
     vertical-align: top;
 }
 
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding-left: 0;
+    & li {
+        padding-top: 0.05rem;
+        padding-bottom: 0.05rem;
+
+    }
+}
+
 section {
     background-color: var(--text-bg-color);
     padding-bottom: 1rem;
@@ -54,6 +65,16 @@ section {
         margin: 0;
         color: var(--bg-color);
         padding: 5px 10px;
+        & a, & a:visited {
+            color: var(--bg-color);
+        }
+    }
+
+    & h2 {
+        font-size: 120%;
+        font-family: var(--sans-font);
+        color: var(--header-bg-green);
+        margin: 0;
     }
 }
 
