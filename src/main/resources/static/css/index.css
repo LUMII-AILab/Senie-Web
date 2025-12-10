@@ -6,6 +6,15 @@
         & li {
             padding-top: 0.05rem;
             padding-bottom: 0.05rem;
+            & form {
+                display: flex;
+                flex-flow: row wrap;
+                align-items: left;
+                & input {
+                    margin-left: 6px;
+                    margin-right: 3px;
+                }
+            }
         }
     }
     .booksep
