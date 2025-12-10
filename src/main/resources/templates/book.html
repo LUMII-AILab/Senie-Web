@@ -3,6 +3,7 @@
 <main id="book">
   <section>
     <h1 th:text="${pageTitle}">Grāmata (Ab1234_CD)</h1>
+    <p><a href="/biblio/Ab1234_BC" th:href="|/biblio/${currentBook.fullSource}">Bibliogrāfija</a></p>
     <div class="page-nav">
       <!-- List of books (only for collections) -->
       <nav class="books" th:if="${collection} != null">
