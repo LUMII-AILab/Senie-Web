@@ -3,7 +3,7 @@
 <main id="book">
   <section>
     <h1 th:text="${pageTitle}">Grāmata (Ab1234_CD)</h1>
-    <div>
+    <div class="page-nav">
       <!-- List of books (only for collections) -->
       <nav class="books" th:if="${collection} != null">
         <label for="bookSelector">Nodaļa:</label>
@@ -52,33 +52,35 @@
           <button th:text="|Nākamā (${nextPage.displayName})|"></button>
         </form>
       </nav>
-
-      <!-- Page content -->
-      <div id="pageContent" translate="no">
-        <table>
-          <tr th:each="line : ${lines}">
-            <td class="address">
-              <a
-                th:id="${line.address}"
-                th:href="|/goto?address=${line.address}"
-                th:text="${line.address}"
-              >Ab1234_BC_--_1</a>
-            </td>
-            <td>[(${line.dataHtml})]</td>
-          </tr>
-        </table>
-        <div>
-          <a th:if="${facsimile} != null" th:href="${facsimile}">
-            <img
-              th:if="${facsimile} != null"
-              th:src="${facsimile}"
-              alt="Rakstu darba oriģināla faksimils"
-            >
-          </a>
-        </div>
-      </div>
-
     </div>
+
+    <!-- Page content -->
+    <div id="pageContent" translate="no">
+      <table>
+        <tr th:each="line : ${lines}">
+          <td class="address">
+            <a
+              th:id="${line.address}"
+              th:href="|/goto?address=${line.address}"
+              th:text="${line.address}"
+            >Ab1234_BC_--_1</a>
+          </td>
+          <td>[(${line.dataHtml})]</td>
+        </tr>
+      </table>
+      <div>
+        <a th:if="${facsimile} != null" th:href="${facsimile}">
+          <img
+            th:if="${facsimile} != null"
+            th:src="${facsimile}"
+            alt="Rakstu darba oriģināla faksimils"
+          >
+        </a>
+      </div>
+    </div>
+
+    <div th:insert="this :: div.page-nav"></div>
+
   </section>
 </main>
 </html>
