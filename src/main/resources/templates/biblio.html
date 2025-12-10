@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: page(~{::main})}">
+<main id="biblio">
+  <section>
+    <h1 th:text="${pageTitle}">Grāmata (Ab1234_CD)</h1>
+    <p><a href="/book/Ab1234_BC" th:href="|/books/${currentBook.fullSource}">Grāmatas saturs</a></p>
+    <div th:if="${collection} != null">
+      <h2>Avots</h2>
+      <ul>
+        <li>
+          <strong>Nosaukums</strong>:
+          <span th:text="${collection.name}">Bībele</span>
+        </li>
+        <li>
+          <strong>Gads</strong>:
+          <span th:text="${collection.year1}">1525</span><span
+                th:if="${collection.year2} != null and ${collection.year1} != ${collection.year2}"
+                th:text="|–${collection.year2}"></span>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h2 th:text="${collection} ? 'Sadaļa' : 'Avots'">Avots</h2>
+      <ul>
+        <li>
+          <strong>Nosaukums</strong>:
+          <span th:text="${currentBook.name}">Valpurģu nakts</span>
+        </li>
+        <li>
+          <strong>Gads</strong>:
+          <span th:text="${currentBook.year1}">1525</span><span
+                th:if="${currentBook.year2} != null and ${currentBook.year1} != ${currentBook.year2}"
+                th:text="|–${currentBook.year2}"></span>
+        </li>
+        <li>
+          <strong>Manuskripts</strong>:
+          <span th:text="${currentBook.manuscript} ? 'jā' : 'nē'"></span>
+        </li>
+      </ul>
+    </div>
+
+  </section>
+</main>
+</html>
