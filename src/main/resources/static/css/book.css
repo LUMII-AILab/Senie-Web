@@ -1,6 +1,16 @@
 #book {
+    h1 {
+        & a {
+            font-size: 66%;
+        }
+    }
+
     nav.books, nav.pages, #pageContent {
         display: flex;
+    }
+
+    nav.books, nav.pages {
+            margin: 5px;
     }
 
     form.books, form.pages, #pageContent {
