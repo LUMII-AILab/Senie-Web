@@ -12,6 +12,10 @@
         padding-right: 0.3rem;
     }
 
+    section {
+        padding-bottom: 0rem;
+    }
+
     #pageContent {
         align-items: start;
         & td {
@@ -30,11 +34,6 @@
             }
         }
 
-    }
-
-    nav.books, nav.pages
-    {
-        padding-bottom: 1rem;
     }
 
     .nav-block
