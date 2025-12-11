@@ -14,6 +14,10 @@
           <strong>Nosaukums</strong>:
           <span th:text="${collection.name}">Bībele</span>
         </li>
+        <li th:if="${collectionAuthor} != null">
+          <strong>Autors</strong>:
+          <span th:text="${collectionAuthor}">Nezināms</span>
+        </li>
         <li>
           <strong>Gads</strong>:
           <span th:text="${collection.year1}">1525</span><span
@@ -28,6 +32,14 @@
         <li>
           <strong>Nosaukums</strong>:
           <span th:text="${currentBook.name}">Valpurģu nakts</span>
+        </li>
+        <li>
+          <strong>Autors</strong>:
+          <span th:text="${topAuthor}">Nezināms</span>
+        </li>
+        <li th:if="${otherAuthors}">
+          <strong>Līdzautori</strong>:
+          <span th:text="${otherAuthors}"></span>
         </li>
         <li>
           <strong>Gads</strong>:
