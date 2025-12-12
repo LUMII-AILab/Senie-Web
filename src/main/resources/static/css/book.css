@@ -3,6 +3,11 @@
         display: flex;
     }
 
+    nav + nav {
+        margin-top: 0.25rem;
+        margin-bottom: 0.25rem;
+    }
+
     form.books, form.pages, #pageContent {
         white-space: nowrap;
     }
@@ -12,9 +17,13 @@
         padding-right: 0.3rem;
     }
 
+    section {
+        padding-bottom: 0rem;
+    }
+
     #pageContent {
         align-items: start;
-        & td {
+        td {
             padding-right: 0.4rem;
         }
         & .address a {
@@ -30,11 +39,6 @@
             }
         }
 
-    }
-
-    nav.books, nav.pages
-    {
-        padding-bottom: 1rem;
     }
 
     .nav-block
