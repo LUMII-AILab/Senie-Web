@@ -18,7 +18,7 @@
 
     #pageContent {
         align-items: start;
-        & td {
+        td {
             padding-right: 0.4rem;
         }
         & .address a {
