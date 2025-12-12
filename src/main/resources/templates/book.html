@@ -79,7 +79,10 @@
       </div>
     </div>
 
-    <div th:insert="this :: div.page-nav"></div>
+    <div class="page-nav">
+      <nav th:insert="this :: .pages"></nav>
+      <nav th:insert="this :: .books"></nav>
+    </div>
 
   </section>
 </main>

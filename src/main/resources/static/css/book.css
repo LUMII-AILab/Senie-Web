@@ -3,6 +3,11 @@
         display: flex;
     }
 
+    nav + nav {
+        margin-top: 0.25rem;
+        margin-bottom: 0.25rem;
+    }
+
     form.books, form.pages, #pageContent {
         white-space: nowrap;
     }
