@@ -1,6 +1,7 @@
 package lv.ailab.senie.db.repositories
 
 import lv.ailab.senie.db.entities.Book
+import org.springframework.data.jpa.repository.NativeQuery
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
 import org.springframework.data.repository.query.Param
