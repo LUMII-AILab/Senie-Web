@@ -2,6 +2,7 @@ package lv.ailab.senie.rest.controllers
 
 import lv.ailab.senie.db.repositories.AuthorRepository
 import lv.ailab.senie.db.repositories.BookRepository
+import lv.ailab.senie.db.repositories.GenreRepository
 import lv.ailab.senie.rest.BiblioImageClient
 import lv.ailab.senie.rest.CommonFailures.bookNotFound
 import org.slf4j.LoggerFactory
@@ -15,6 +16,7 @@ import kotlin.jvm.optionals.getOrNull
 class BibliographyController(
     private val bookRepo: BookRepository,
     private val authorRepo: AuthorRepository,
+    private val genreRepo: GenreRepository,
     private val imageClient: BiblioImageClient,
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -33,14 +35,21 @@ class BibliographyController(
             .map { author -> author.name }
             .reduce{a, b -> a + ", " + b}.getOrNull()
         val collectionAuthor = currentBook.collectionCode?.let ( authorRepo::findMainAuthor )
-        val biblioImagePath =
-            if (currentBook.collectionCode == null) imageClient.findUrlFor(currentBook.fullSource)
-            else imageClient.findUrlFor(currentBook.collectionCode)
+        val mainGenre = genreRepo.findMainGenre(currentBook.collectionCode ?: source)
+        val subGenres = genreRepo.findSubgenres(currentBook.collectionCode ?: source)
+            .sortedBy { it.name }.stream()
+            .map { genre -> genre.name }
+            .reduce{a, b -> a + ", " + b}.getOrNull()
+        val genres =
+            if (subGenres != null) "${mainGenre.name} – $subGenres"
+            else mainGenre.name
+        val biblioImagePath = imageClient.findUrlFor(currentBook.collectionCode ?: source)
         model.addAttribute("collection", collection)
         model.addAttribute("currentBook", currentBook)
         model.addAttribute("topAuthor", itemTopAuthor.name)
         model.addAttribute("otherAuthors", otherItemAuthors)
         model.addAttribute("collectionAuthor", collectionAuthor?.name)
+        model.addAttribute("genres", genres)
         model.addAttribute("biblioImage", biblioImagePath)
 
         return "biblio";

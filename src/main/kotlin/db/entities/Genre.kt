@@ -5,9 +5,10 @@ import jakarta.persistence.Id
 import jakarta.persistence.Table
 
 @Entity
-@Table(name = "authors")
-data class Author (
+@Table(name = "genres")
+data class Genre (
     @Id val id: Int,
     val name: String,
+    val subgenre: Boolean,
 ) {
 }
