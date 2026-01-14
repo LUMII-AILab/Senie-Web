@@ -2,6 +2,7 @@ package lv.ailab.senie.rest.controllers
 
 import lv.ailab.senie.db.repositories.AuthorRepository
 import lv.ailab.senie.db.repositories.BookRepository
+import lv.ailab.senie.rest.BiblioImageClient
 import lv.ailab.senie.rest.CommonFailures.bookNotFound
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
@@ -14,6 +15,7 @@ import kotlin.jvm.optionals.getOrNull
 class BibliographyController(
     private val bookRepo: BookRepository,
     private val authorRepo: AuthorRepository,
+    private val imageClient: BiblioImageClient,
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -31,11 +33,15 @@ class BibliographyController(
             .map { author -> author.name }
             .reduce{a, b -> a + ", " + b}.getOrNull()
         val collectionAuthor = currentBook.collectionCode?.let ( authorRepo::findMainAuthor )
+        val biblioImagePath =
+            if (currentBook.collectionCode == null) imageClient.findUrlFor(currentBook.fullSource)
+            else imageClient.findUrlFor(currentBook.collectionCode)
         model.addAttribute("collection", collection)
         model.addAttribute("currentBook", currentBook)
         model.addAttribute("topAuthor", itemTopAuthor.name)
         model.addAttribute("otherAuthors", otherItemAuthors)
         model.addAttribute("collectionAuthor", collectionAuthor?.name)
+        model.addAttribute("biblioImage", biblioImagePath)
 
         return "biblio";
     }

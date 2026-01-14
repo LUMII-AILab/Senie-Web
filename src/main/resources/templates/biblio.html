@@ -24,6 +24,13 @@
                 th:if="${collection.year2} != null and ${collection.year1} != ${collection.year2}"
                 th:text="|–${collection.year2}"></span>
         </li>
+        <li th:if="${biblioImage} != null">
+          <a th:href="${biblioImage}">
+            <img th:src="${biblioImage}"
+                 alt="Rakstu darba papildu bibliogrāfija"
+            >
+          </a>
+        </li>
       </ul>
     </div>
     <div>
@@ -50,6 +57,13 @@
         <li>
           <strong>Manuskripts</strong>:
           <span th:text="${currentBook.manuscript} ? 'jā' : 'nē'"></span>
+        </li>
+        <li th:if="${biblioImage} != null and ${collection} == null" >
+          <a th:href="${biblioImage}">
+            <img th:src="${biblioImage}"
+                 alt="Rakstu darba papildu bibliogrāfija"
+            >
+          </a>
         </li>
       </ul>
     </div>
