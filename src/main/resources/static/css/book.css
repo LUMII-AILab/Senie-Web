@@ -3,6 +3,9 @@
         & a {
             font-size: 66%;
         }
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
     }
 
     nav.books, nav.pages, #pageContent {

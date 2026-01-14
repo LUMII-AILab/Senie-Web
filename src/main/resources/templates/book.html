@@ -4,7 +4,11 @@
   <section>
     <h1>
       <span th:text="${pageTitle}">Grāmata (Ab1234_CD)</span>
-      <a href="/biblio/Ab1234_BC" th:href="|/biblio/${currentBook.fullSource}">Bibliogrāfija</a>
+      <!-- This is here so that for long titles flexbox still would push the
+           following span with "Bibliogrāfija" (and potentially other) link(s)
+           to the right. -->
+      <span>&nbsp;</span>
+      <span><a href="/biblio/Ab1234_BC" th:href="|/biblio/${currentBook.fullSource}">Bibliogrāfija</a></span>
     </h1>
     <div class="page-nav">
       <!-- List of books (only for collections) -->
