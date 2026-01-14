@@ -1,5 +1,6 @@
 package lv.ailab.senie.rest.controllers
 
+import lv.ailab.senie.db.repositories.AuthorRepository
 import lv.ailab.senie.db.repositories.BookRepository
 import lv.ailab.senie.rest.CommonFailures.bookNotFound
 import org.slf4j.LoggerFactory
@@ -7,10 +8,12 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import kotlin.jvm.optionals.getOrNull
 
 @Controller
 class BibliographyController(
     private val bookRepo: BookRepository,
+    private val authorRepo: AuthorRepository,
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
@@ -22,9 +25,17 @@ class BibliographyController(
 
         val currentBook = bookRepo.findByFullSource(source) ?: throw bookNotFound(source)
         val collection = currentBook.collectionCode?.let(bookRepo::findCollection)
-        var pageTitle = currentBook.displayTitle
+        val itemTopAuthor = authorRepo.findMainAuthor(source)
+        val otherItemAuthors = authorRepo.findAdditionalAuthors(source)
+            .sortedBy { it.name }.stream()
+            .map { author -> author.name }
+            .reduce{a, b -> a + ", " + b}.getOrNull()
+        val collectionAuthor = currentBook.collectionCode?.let ( authorRepo::findMainAuthor )
         model.addAttribute("collection", collection)
         model.addAttribute("currentBook", currentBook)
+        model.addAttribute("topAuthor", itemTopAuthor.name)
+        model.addAttribute("otherAuthors", otherItemAuthors)
+        model.addAttribute("collectionAuthor", collectionAuthor?.name)
 
         return "biblio";
     }
