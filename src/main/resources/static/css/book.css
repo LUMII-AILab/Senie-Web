@@ -4,8 +4,10 @@
             font-size: 66%;
         }
         display: flex;
-        flex-wrap: wrap;
         justify-content: space-between;
+        span {
+            align-self: flex-end;
+        }
     }
 
     nav.books, nav.pages, #pageContent {
