@@ -10,5 +10,4 @@ data class Genre (
     @Id val id: Int,
     val name: String,
     val subgenre: Boolean,
-) {
-}
+)

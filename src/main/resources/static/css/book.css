@@ -1,6 +1,6 @@
 #book {
     h1 {
-        & a {
+        a {
             font-size: 66%;
         }
         display: flex;
@@ -35,7 +35,7 @@
         td {
             padding-right: 0.4rem;
         }
-        & .address a {
+        .address a {
             text-decoration: none;
         }
         & > div {
@@ -47,7 +47,6 @@
                 min-width: 30px;
             }
         }
-
     }
 
     .nav-block

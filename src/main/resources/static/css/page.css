@@ -43,7 +43,7 @@ ul {
     list-style-type: none;
     margin: 0;
     padding-left: 0;
-    & li {
+    li {
         padding-top: 0.05rem;
         padding-bottom: 0.05rem;
 
@@ -70,7 +70,7 @@ section {
         }
     }
 
-    & h2 {
+    h2 {
         font-size: 120%;
         font-family: var(--sans-font);
         color: var(--header-bg-green);
