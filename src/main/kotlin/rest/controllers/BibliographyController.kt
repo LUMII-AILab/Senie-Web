@@ -35,6 +35,16 @@ class BibliographyController(
             .map { author -> author.name }
             .reduce{a, b -> a + ", " + b}.getOrNull()
         val collectionAuthor = currentBook.collectionCode?.let ( authorRepo::findMainAuthor )
+        val displayYear =
+            if (currentBook.year1 != currentBook.year2) "${currentBook.year1}–${currentBook.year2}"
+            else currentBook.year1
+        val collectionDisplayYear = currentBook.collectionCode?.let {
+            collection?.year1?.let {
+                if (collection.year1 != collection.year2)
+                    "${collection.year1}–${collection.year2}"
+                else collection.year1
+            }
+        }
         val mainGenre = genreRepo.findMainGenre(currentBook.collectionCode ?: source)
         val subGenres = genreRepo.findSubgenres(currentBook.collectionCode ?: source)
             .sortedBy { it.name }.stream()
@@ -49,6 +59,8 @@ class BibliographyController(
         model.addAttribute("topAuthor", itemTopAuthor.name)
         model.addAttribute("otherAuthors", otherItemAuthors)
         model.addAttribute("collectionAuthor", collectionAuthor?.name)
+        model.addAttribute("displayYear", displayYear)
+        model.addAttribute("collectionDisplayYear", collectionDisplayYear)
         model.addAttribute("genres", genres)
         model.addAttribute("biblioImage", biblioImagePath)
 

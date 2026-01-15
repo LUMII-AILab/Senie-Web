@@ -20,9 +20,7 @@
         </li>
         <li>
           <strong>Gads</strong>:
-          <span th:text="${collection.year1}">1525</span><span
-                th:if="${collection.year2} != null and ${collection.year1} != ${collection.year2}"
-                th:text="|–${collection.year2}"></span>
+          <span th:text="${collectionDisplayYear}">1525</span>
         </li>
         <li th:if="${genres} != null">
           <strong>Žanrs</strong>:
@@ -54,9 +52,7 @@
         </li>
         <li>
           <strong>Gads</strong>:
-          <span th:text="${currentBook.year1}">1525</span><span
-                th:if="${currentBook.year2} != null and ${currentBook.year1} != ${currentBook.year2}"
-                th:text="|–${currentBook.year2}"></span>
+          <span th:text="${displayYear}">1525</span>
         </li>
         <li>
           <strong>Manuskripts</strong>:
