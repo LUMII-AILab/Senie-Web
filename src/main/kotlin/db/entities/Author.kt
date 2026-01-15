@@ -9,4 +9,5 @@ import jakarta.persistence.Table
 data class Author (
     @Id val id: Int,
     val name: String,
+    val topAuthor: Boolean,
 )

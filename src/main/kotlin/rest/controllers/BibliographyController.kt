@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
-import kotlin.jvm.optionals.getOrNull
 
 @Controller
 class BibliographyController(
@@ -29,12 +28,14 @@ class BibliographyController(
 
         val currentBook = bookRepo.findByFullSource(source) ?: throw bookNotFound(source)
         val collection = currentBook.collectionCode?.let(bookRepo::findCollection)
-        val itemTopAuthor = authorRepo.findMainAuthor(source)
-        val otherItemAuthors = authorRepo.findAdditionalAuthors(source)
-            .sortedBy { it.name }.stream()
-            .map { author -> author.name }
-            .reduce{a, b -> a + ", " + b}.getOrNull()
-        val collectionAuthor = currentBook.collectionCode?.let ( authorRepo::findMainAuthor )
+        val itemAuthors = authorRepo.findAuthors(source).partition { author -> author.topAuthor }
+        val itemTopAuthors = itemAuthors.first.joinToString { author -> author.name }
+        val otherItemAuthors = itemAuthors.second.joinToString { author -> author.name }
+        val collectionTopAuthors = currentBook.collectionCode?.let{
+            authorRepo.findAuthors(currentBook.collectionCode)
+                .filter { author -> author.topAuthor }
+                .joinToString { author -> author.name }
+        }
         val displayYear =
             if (currentBook.year1 != currentBook.year2) "${currentBook.year1}–${currentBook.year2}"
             else currentBook.year1
@@ -54,9 +55,9 @@ class BibliographyController(
         val biblioImagePath = imageClient.findUrlFor(currentBook.collectionCode ?: source)
         model.addAttribute("collection", collection)
         model.addAttribute("currentBook", currentBook)
-        model.addAttribute("topAuthor", itemTopAuthor.name)
+        model.addAttribute("topAuthors", itemTopAuthors)
         model.addAttribute("otherAuthors", otherItemAuthors)
-        model.addAttribute("collectionAuthor", collectionAuthor?.name)
+        model.addAttribute("collectionTopAuthors", collectionTopAuthors)
         model.addAttribute("displayYear", displayYear)
         model.addAttribute("collectionDisplayYear", collectionDisplayYear)
         model.addAttribute("genres", displayGenres)

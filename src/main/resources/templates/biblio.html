@@ -14,9 +14,9 @@
           <strong>Nosaukums</strong>:
           <span th:text="${collection.name}">Bībele</span>
         </li>
-        <li th:if="${collectionAuthor} != null">
+        <li th:if="${collectionTopAuthors} != null">
           <strong>Autors</strong>:
-          <span th:text="${collectionAuthor}">Nezināms</span>
+          <span th:text="${collectionTopAuthors}">Nezināms</span>
         </li>
         <li>
           <strong>Gads</strong>:
@@ -44,7 +44,7 @@
         </li>
         <li>
           <strong>Autors</strong>:
-          <span th:text="${topAuthor}">Nezināms</span>
+          <span th:text="${topAuthors}">Nezināms</span>
         </li>
         <li th:if="${otherAuthors}">
           <strong>Līdzautori</strong>:

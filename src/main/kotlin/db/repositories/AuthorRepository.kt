@@ -7,25 +7,20 @@ import org.springframework.data.repository.query.Param
 
 interface AuthorRepository : CrudRepository<Author, Int> {
 
-    @NativeQuery(TOP_AUTHOR_SQL)
-    fun findMainAuthor(@Param("code") source: String): Author
+    @NativeQuery(AUTHORS_SQL)
+    fun findAuthors(@Param("code") source: String): List<Author>
 
-    @NativeQuery(ADDITIONAL_AUTHORS_SQL)
-    fun findAdditionalAuthors(@Param("code") source: String): List<Author>
-
+    // This will return the same author twice, if they are both top author
+    // (written on the cover) and additional author (mentioned in the middle of
+    // the text again), but at this point I'm not sure what is the preferred
+    // end look, so this stays until further user feedback.
     companion object {
-        const val TOP_AUTHOR_SQL = """
-            SELECT DISTINCT a.id, a.name 
+        const val AUTHORS_SQL = """
+            SELECT DISTINCT a.id, a.name, ba.top_author 
             FROM authors a
             JOIN books_authors ba ON a.id = ba.author_id 
-            WHERE ba.source = :code and ba.top_author = 1
-        """
-        // TODO: maybe we need here some kind of filtration to avoid repeating primary authors?
-        const val ADDITIONAL_AUTHORS_SQL = """
-            SELECT DISTINCT a.id, a.name 
-            FROM authors a
-            JOIN books_authors ba ON a.id = ba.author_id 
-            WHERE ba.source = :code and ba.top_author != 1
+            WHERE ba.source = :code 
+            ORDER BY ba.top_author DESC, a.name ASC
         """
     }
 }
