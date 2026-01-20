@@ -45,14 +45,12 @@ class BibliographyController(
                 else collection.year1
             }
         }
-        val mainGenre = genreRepo.findMainGenre(currentBook.collectionCode ?: source)
-        val subGenres = genreRepo.findSubgenres(currentBook.collectionCode ?: source)
-            .sortedBy { it.name }.stream()
-            .map { genre -> genre.name }
-            .reduce{a, b -> a + ", " + b}.getOrNull()
-        val genres =
-            if (subGenres != null) "${mainGenre.name} – $subGenres"
-            else mainGenre.name
+        val genres = genreRepo.findGenres(currentBook.collectionCode ?: source)
+        val mainGenre = genres.firstOrNull()?.name // Built-in assumption that there is only one `subgenre = FALSE` item for each book.
+        val subGenres = genres.subList(1, genres.size).joinToString { genre -> genre.name }
+        val displayGenres =
+            if (genres.size > 1) "$mainGenre – $subGenres"
+            else mainGenre
         val biblioImagePath = imageClient.findUrlFor(currentBook.collectionCode ?: source)
         model.addAttribute("collection", collection)
         model.addAttribute("currentBook", currentBook)
@@ -61,7 +59,7 @@ class BibliographyController(
         model.addAttribute("collectionAuthor", collectionAuthor?.name)
         model.addAttribute("displayYear", displayYear)
         model.addAttribute("collectionDisplayYear", collectionDisplayYear)
-        model.addAttribute("genres", genres)
+        model.addAttribute("genres", displayGenres)
         model.addAttribute("biblioImage", biblioImagePath)
 
         return "biblio";

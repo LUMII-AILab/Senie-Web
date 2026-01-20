@@ -7,24 +7,17 @@ import org.springframework.data.repository.query.Param
 
 interface GenreRepository : CrudRepository<Genre, Int> {
 
-    @NativeQuery(MAIN_GENRE_SQL)
-    fun findMainGenre(@Param("code") source: String): Genre
 
-    @NativeQuery(SUBGENRES_SQL)
-    fun findSubgenres(@Param("code") source: String): List<Genre>
+    @NativeQuery(GENRES_SQL)
+    fun findGenres(@Param("code") source: String): List<Genre>
 
     companion object {
-        const val MAIN_GENRE_SQL = """
-            SELECT g.id, g.name, g.subgenre 
-            FROM genres g
-            JOIN books_genres bg ON g.id = bg.genre_id 
-            WHERE bg.source = :code and g.subgenre = 0
-        """
-        const val SUBGENRES_SQL = """
+        const val GENRES_SQL = """
             SELECT DISTINCT g.id, g.name, g.subgenre
             FROM genres g
             JOIN books_genres bg ON g.id = bg.genre_id 
-            WHERE bg.source = :code and g.subgenre = 1
+            WHERE bg.source = :code 
+            ORDER BY g.subgenre, g.name
         """
     }
 }
