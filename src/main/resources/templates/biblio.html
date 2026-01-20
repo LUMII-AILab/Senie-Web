@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: page(~{::main})}">
+<main id="biblio">
+  <section>
+    <h1>
+      Bibliogrāfija (<a
+            href="/book/Ab1234_BC" th:href="|/books/${currentBook.fullSource}"
+            th:text="${currentBook.fullSource}">Ab1234_CD></a>)
+    </h1>
+    <div th:if="${collection} != null">
+      <h2>Avots</h2>
+      <ul>
+        <li>
+          <strong>Nosaukums</strong>:
+          <span th:text="${collection.name}">Bībele</span>
+        </li>
+        <li th:if="${collectionTopAuthors} != null">
+          <strong>Autors</strong>:
+          <span th:text="${collectionTopAuthors}">Nezināms</span>
+        </li>
+        <li>
+          <strong>Gads</strong>:
+          <span th:text="${collectionDisplayYear}">1525</span>
+        </li>
+        <li th:if="${genres} != null">
+          <strong>Žanrs</strong>:
+          <span th:text="${genres}"/>
+        </li>
+        <li th:if="${biblioImage} != null">
+          <a th:href="${biblioImage}">
+            <img th:src="${biblioImage}"
+                 alt="Rakstu darba papildu bibliogrāfija"
+            >
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h2 th:text="${collection} ? 'Sadaļa' : 'Avots'">Avots</h2>
+      <ul>
+        <li>
+          <strong>Nosaukums</strong>:
+          <span th:text="${currentBook.name}">Valpurģu nakts</span>
+        </li>
+        <li>
+          <strong>Autors</strong>:
+          <span th:text="${topAuthors}">Nezināms</span>
+        </li>
+        <li th:if="${otherAuthors}">
+          <strong>Līdzautori</strong>:
+          <span th:text="${otherAuthors}"></span>
+        </li>
+        <li>
+          <strong>Gads</strong>:
+          <span th:text="${displayYear}">1525</span>
+        </li>
+        <li>
+          <strong>Manuskripts</strong>:
+          <span th:text="${currentBook.manuscript} ? 'jā' : 'nē'"></span>
+        </li>
+        <li th:if="${genres} != null and ${collection} == null" >
+          <strong>Žanrs</strong>:
+          <span th:text="${genres}"/>
+        </li>
+        <li th:if="${biblioImage} != null and ${collection} == null" >
+          <a th:href="${biblioImage}">
+            <img th:src="${biblioImage}"
+                 alt="Rakstu darba papildu bibliogrāfija"
+            >
+          </a>
+        </li>
+      </ul>
+    </div>
+
+  </section>
+</main>
+</html>

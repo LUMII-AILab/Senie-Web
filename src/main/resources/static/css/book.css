@@ -1,4 +1,15 @@
 #book {
+    h1 {
+        a {
+            font-size: 66%;
+        }
+        display: flex;
+        justify-content: space-between;
+        span {
+            align-self: flex-end;
+        }
+    }
+
     nav.books, nav.pages, #pageContent {
         display: flex;
     }
@@ -26,7 +37,7 @@
         td {
             padding-right: 0.4rem;
         }
-        & .address a {
+        .address a {
             text-decoration: none;
         }
         & > div {
@@ -38,7 +49,6 @@
                 min-width: 30px;
             }
         }
-
     }
 
     .nav-block
