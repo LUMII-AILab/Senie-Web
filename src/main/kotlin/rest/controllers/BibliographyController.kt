@@ -1,6 +1,6 @@
 package lv.ailab.senie.rest.controllers
 
-import lv.ailab.senie.db.repositories.AuthorRepository
+import lv.ailab.senie.db.repositories.BookAuthorRepository
 import lv.ailab.senie.db.repositories.BookRepository
 import lv.ailab.senie.db.repositories.GenreRepository
 import lv.ailab.senie.rest.BiblioImageClient
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable
 @Controller
 class BibliographyController(
     private val bookRepo: BookRepository,
-    private val authorRepo: AuthorRepository,
+    private val authorRepo: BookAuthorRepository,
     private val genreRepo: GenreRepository,
     private val imageClient: BiblioImageClient,
 ) {

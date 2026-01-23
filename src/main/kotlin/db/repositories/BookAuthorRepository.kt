@@ -1,14 +1,14 @@
 package lv.ailab.senie.db.repositories
 
-import lv.ailab.senie.db.entities.Author
+import lv.ailab.senie.db.entities.BookAuthor
 import org.springframework.data.jpa.repository.NativeQuery
 import org.springframework.data.repository.CrudRepository
 import org.springframework.data.repository.query.Param
 
-interface AuthorRepository : CrudRepository<Author, Int> {
+interface BookAuthorRepository : CrudRepository<BookAuthor, Int> {
 
     @NativeQuery(AUTHORS_SQL)
-    fun findAuthors(@Param("code") source: String): List<Author>
+    fun findAuthors(@Param("code") source: String): List<BookAuthor>
 
     // This will return the same author twice, if they are both top author
     // (written on the cover) and additional author (mentioned in the middle of
@@ -16,7 +16,7 @@ interface AuthorRepository : CrudRepository<Author, Int> {
     // end look, so this stays until further user feedback.
     companion object {
         const val AUTHORS_SQL = """
-            SELECT DISTINCT a.id, a.name, ba.cover_author 
+            SELECT ba.id, a.name, ba.cover_author 
             FROM authors a
             JOIN books_authors ba ON a.id = ba.author_id 
             WHERE ba.source = :code 
