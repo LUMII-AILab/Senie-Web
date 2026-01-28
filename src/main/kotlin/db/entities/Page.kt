@@ -4,16 +4,12 @@ import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.Table
 
-/**
- * A partial/pseudo entity to use when extracting only the page data from the content table.
- */
 @Entity
-@Table(name = "content")
+@Table(name = "pages")
 data class Page(
-    // Not really an ID, obviously, but entities need a property marked as one,
-    // and as long as we are only doing SELECT DISTINCT, it shouldn't matter that it's not actually unique.
-    @Id val order: Int,
+    @Id val id: Int,
     val name: String?,
+    val order: Int,
 ) {
 
     val linkName: String?

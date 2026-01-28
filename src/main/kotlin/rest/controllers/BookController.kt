@@ -1,7 +1,7 @@
 package lv.ailab.senie.rest.controllers
 
 import lv.ailab.senie.db.repositories.BookRepository
-import lv.ailab.senie.db.repositories.ContentRepository
+import lv.ailab.senie.db.repositories.ContentLineRepository
 import lv.ailab.senie.db.repositories.PageRepository
 import lv.ailab.senie.rest.CommonFailures
 import lv.ailab.senie.rest.CommonFailures.bookNotFound
@@ -18,7 +18,7 @@ import org.springframework.web.servlet.view.RedirectView
 @Controller
 class BookController(
     private val bookRepo: BookRepository,
-    private val contentRepo: ContentRepository,
+    private val contentRepo: ContentLineRepository,
     private val facsimileClient: FacsimileClient,
     private val pageRepo: PageRepository,
 ) {
