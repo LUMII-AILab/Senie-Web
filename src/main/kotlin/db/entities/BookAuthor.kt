@@ -8,5 +8,5 @@ data class BookAuthor (
     @Id val id: Int,
     val name: String,
     /* This is a property describing author's relation to a book, not author itself. */
-    val coverAuthor: Boolean,
+    val isCoverAuthor: Boolean,
 )

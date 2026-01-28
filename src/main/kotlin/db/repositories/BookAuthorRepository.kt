@@ -16,7 +16,7 @@ interface BookAuthorRepository : CrudRepository<BookAuthor, Int> {
     // end look, so this stays until further user feedback.
     companion object {
         const val AUTHORS_SQL = """
-            SELECT ba.id, a.name, ba.cover_author 
+            SELECT ba.id, a.name, ba.cover_author as is_cover_author
             FROM authors a
             JOIN books_authors ba ON a.id = ba.author_id 
             WHERE ba.source = :code 
