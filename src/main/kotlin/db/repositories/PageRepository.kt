@@ -10,10 +10,8 @@ interface PageRepository : CrudRepository<Page, Int> {
 
     companion object {
         const val BOOK_PAGES_SQL = """
-            SELECT DISTINCT
-                   `page_sort_order` AS `order`,
-                   `page` AS `name` 
-              FROM `content`
+            SELECT id, name, sort_order AS `order`
+              FROM `pages`
              WHERE `source` = :source
         """
     }

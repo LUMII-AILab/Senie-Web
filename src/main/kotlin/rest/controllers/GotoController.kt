@@ -1,7 +1,7 @@
 package lv.ailab.senie.rest.controllers
 
 import lv.ailab.senie.db.repositories.BookRepository
-import lv.ailab.senie.db.repositories.ContentRepository
+import lv.ailab.senie.db.repositories.ContentLineRepository
 import lv.ailab.senie.rest.CommonFailures.bookNotFound
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
@@ -12,7 +12,7 @@ import java.util.*
 
 @Controller class GotoController(
     private val bookRepo: BookRepository,
-    private val contentRepo: ContentRepository,
+    private val contentRepo: ContentLineRepository,
 ) {
     @GetMapping("/goto")
     fun goto(

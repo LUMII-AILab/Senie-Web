@@ -16,11 +16,11 @@ interface AuthorRepository : CrudRepository<Author, Int> {
     // end look, so this stays until further user feedback.
     companion object {
         const val AUTHORS_SQL = """
-            SELECT DISTINCT a.id, a.name, ba.top_author 
+            SELECT DISTINCT a.id, a.name, ba.cover_author 
             FROM authors a
             JOIN books_authors ba ON a.id = ba.author_id 
             WHERE ba.source = :code 
-            ORDER BY ba.top_author DESC, a.name ASC
+            ORDER BY ba.cover_author DESC, a.name ASC
         """
     }
 }
