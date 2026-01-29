@@ -1,0 +1,14 @@
+package lv.ailab.senie.rest.controllers
+
+import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestMapping
+
+@Controller
+@RequestMapping("diagnostics")
+class DiagnosticsController {
+    @GetMapping
+    fun index(): String {
+        return "diagnostics"
+    }
+}
