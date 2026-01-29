@@ -63,8 +63,8 @@ class BookController(
         model.addAttribute("currentBook", currentBook)
 
         // Pages
-        val pages = pageRepo.findAllPagesInBook(currentBook.fullSource).sortedBy { it.order }
-        val hasPages = pages.any { it.order > 1 }
+        val pages = pageRepo.findAllBySource(currentBook.fullSource).sortedBy { it.sortOrder }
+        val hasPages = pages.any { it.sortOrder > 1 }
         val currentPage = pageParam?.let { pageLink ->
             pages.firstOrNull { page -> page.linkName == pageLink }
                 ?: throw CommonFailures.pageNotFound(pageLink, currentBook.fullSource)
@@ -82,7 +82,7 @@ class BookController(
 
         // Content
         val displayPages =
-            if (hasPages) listOf(currentPage.order)
+            if (hasPages) listOf(currentPage.sortOrder)
             else (0..1).toList()
         val lines = contentRepo.findAllBySourceAndPageSortOrderIn(currentBook.fullSource, displayPages)
 
