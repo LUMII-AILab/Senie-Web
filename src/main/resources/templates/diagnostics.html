@@ -3,6 +3,21 @@
 <main id="diagnostics">
   <section>
     <h1>Problēmu pārskats</h1>
+    <h2>Faksimilu faili</h2>
+    <table>
+      <tr>
+        <th>Grāmata</th>
+        <th title="Atrasto faksimilu skaits">Ir</th>
+        <th title="Trūkstošo faksimilu skaits">Nav</th>
+        <th title="Vēl nepārbaudīto faksimilu skaits">...</th>
+      </tr>
+      <tr th:each="summary: ${summaries}">
+        <td th:text="${summary.source}">Valpurģu nakts</td>
+        <td th:text="${summary.foundDisplay}">1</td>
+        <td th:text="${summary.missingDisplay}">2</td>
+        <td th:text="${summary.needsLookupCount}">3</td>
+      </tr>
+    </table>
   </section>
 </main>
 </html>
