@@ -1,26 +1,10 @@
 package lv.ailab.senie.db.repositories
 
 import lv.ailab.senie.db.entities.BookAuthor
-import org.springframework.data.jpa.repository.NativeQuery
 import org.springframework.data.repository.CrudRepository
-import org.springframework.data.repository.query.Param
 
 interface BookAuthorRepository : CrudRepository<BookAuthor, Int> {
 
-    @NativeQuery(AUTHORS_SQL)
-    fun findAuthors(@Param("code") source: String): List<BookAuthor>
+    fun findAllBySourceOrderByAuthorName(source: String): List<BookAuthor>
 
-    // This will return the same author twice, if they are both top author
-    // (written on the cover) and additional author (mentioned in the middle of
-    // the text again), but at this point I'm not sure what is the preferred
-    // end look, so this stays until further user feedback.
-    companion object {
-        const val AUTHORS_SQL = """
-            SELECT ba.id, a.name, ba.cover_author as is_cover_author
-            FROM authors a
-            JOIN books_authors ba ON a.id = ba.author_id 
-            WHERE ba.source = :code 
-            ORDER BY ba.cover_author DESC, a.name ASC
-        """
-    }
 }
