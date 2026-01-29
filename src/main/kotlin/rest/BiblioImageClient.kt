@@ -36,7 +36,7 @@ class BiblioImageClient(
         // Page images may have any of these file extensions
         val extensions = listOf("jpg", "png")
 
-        logger.debug("Looking for facsimile image for ${source}...")
+        logger.debug("Looking for bibliography image for ${source}...")
         return extensions.firstNotNullOfOrNull { extension ->
             val fileName = "$source.$extension"
             val fileUrl = "$baseUrl/${fileName.urlEncode()}"

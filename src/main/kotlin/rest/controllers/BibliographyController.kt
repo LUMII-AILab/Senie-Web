@@ -1,6 +1,6 @@
 package lv.ailab.senie.rest.controllers
 
-import lv.ailab.senie.db.repositories.AuthorRepository
+import lv.ailab.senie.db.repositories.BookAuthorRepository
 import lv.ailab.senie.db.repositories.BookRepository
 import lv.ailab.senie.db.repositories.GenreRepository
 import lv.ailab.senie.rest.BiblioImageClient
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable
 @Controller
 class BibliographyController(
     private val bookRepo: BookRepository,
-    private val authorRepo: AuthorRepository,
+    private val authorRepo: BookAuthorRepository,
     private val genreRepo: GenreRepository,
     private val imageClient: BiblioImageClient,
 ) {
@@ -28,13 +28,13 @@ class BibliographyController(
 
         val currentBook = bookRepo.findByFullSource(source) ?: throw bookNotFound(source)
         val collection = currentBook.collectionCode?.let(bookRepo::findCollection)
-        val itemAuthors = authorRepo.findAuthors(source).partition { author -> author.coverAuthor }
-        val itemTopAuthors = itemAuthors.first.joinToString { author -> author.name }
-        val otherItemAuthors = itemAuthors.second.joinToString { author -> author.name }
-        val collectionTopAuthors = currentBook.collectionCode?.let{
-            authorRepo.findAuthors(currentBook.collectionCode)
-                .filter { author -> author.coverAuthor }
-                .joinToString { author -> author.name }
+        val itemAuthors = authorRepo.findAllBySourceOrderByAuthorName(source).partition { author -> author.isCoverAuthor }
+        val itemTopAuthors = itemAuthors.first.joinToString { ba -> ba.author.name }
+        val otherItemAuthors = itemAuthors.second.joinToString { ba -> ba.author.name }
+        val collectionTopAuthors = currentBook.collectionCode?.let {
+            authorRepo.findAllBySourceOrderByAuthorName(currentBook.collectionCode)
+                .filter { author -> author.isCoverAuthor }
+                .joinToString { ba -> ba.author.name }
         }
         val displayYear =
             if (currentBook.year1 != currentBook.year2) "${currentBook.year1}–${currentBook.year2}"
@@ -47,7 +47,8 @@ class BibliographyController(
             }
         }
         val genres = genreRepo.findGenres(currentBook.collectionCode ?: source)
-        val mainGenre = genres.firstOrNull()?.name // Built-in assumption that there is only one `subgenre = FALSE` item for each book.
+        // Built-in assumption that there is only one `subgenre = FALSE` item for each book.
+        val mainGenre = genres.firstOrNull()?.name
         val subGenres = genres.subList(1, genres.size).joinToString { genre -> genre.name }
         val displayGenres =
             if (genres.size > 1) "$mainGenre – $subGenres"

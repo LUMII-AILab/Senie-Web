@@ -6,8 +6,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "authors")
-data class Author (
+data class Author(
     @Id val id: Int,
     val name: String,
-    val coverAuthor: Boolean,
 )
