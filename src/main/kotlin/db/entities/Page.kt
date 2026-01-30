@@ -1,15 +1,18 @@
 package lv.ailab.senie.db.entities
 
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import jakarta.persistence.*
+import jakarta.persistence.FetchType.LAZY
 import java.time.Instant
 
 @Entity
 @Table(name = "pages")
 data class Page(
     @Id val id: Int,
-    val source: String,
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "source", referencedColumnName = "fullSource")
+    val book: Book,
+
     val name: String?,
     val sortOrder: Int,
     val facsimileFilename: String?,

@@ -1,17 +1,18 @@
 package lv.ailab.senie.db.entities
 
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import jakarta.persistence.*
+import jakarta.persistence.FetchType.LAZY
 
 @Entity
 @Table(name = "content_lines")
 data class ContentLine(
     @Id val id: Int,
-    val source: String,
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "page_id")
+    val page: Page,
+
     val address: String?,
-    val page: String?,
-    val pageSortOrder: Int,
     val lineSortOrder: Int,
     val dataHtml: String,
     val dataPlain: String,

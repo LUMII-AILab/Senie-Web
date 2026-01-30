@@ -24,8 +24,7 @@ import java.util.*
             address != null -> {
                 val line = contentRepo.findByAddress(address)
                     ?: error("Sistēmā nav rindiņas ar adresi [$address].")
-                val book = bookRepo.findByFullSource(line.source)!!
-                Triple(book, line.page, line)
+                Triple(line.page.book, line.page.name, line)
             }
             source != null -> {
                 val book = bookRepo.findByFullSource(source) ?: throw bookNotFound(source)
