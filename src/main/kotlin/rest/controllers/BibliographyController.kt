@@ -28,11 +28,13 @@ class BibliographyController(
 
         val currentBook = bookRepo.findByFullSource(source) ?: throw bookNotFound(source)
         val collection = currentBook.collectionCode?.let(bookRepo::findCollection)
-        val itemAuthors = authorRepo.findAllBySourceOrderByAuthorName(source).partition { author -> author.isCoverAuthor }
+        val itemAuthors = authorRepo.findAllByBookFullSourceOrderByAuthorName(source).partition {
+            author -> author.isCoverAuthor
+        }
         val itemTopAuthors = itemAuthors.first.joinToString { ba -> ba.author.name }
         val otherItemAuthors = itemAuthors.second.joinToString { ba -> ba.author.name }
         val collectionTopAuthors = currentBook.collectionCode?.let {
-            authorRepo.findAllBySourceOrderByAuthorName(currentBook.collectionCode)
+            authorRepo.findAllByBookFullSourceOrderByAuthorName(currentBook.collectionCode)
                 .filter { author -> author.isCoverAuthor }
                 .joinToString { ba -> ba.author.name }
         }
