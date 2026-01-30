@@ -63,7 +63,7 @@ class BookController(
         model.addAttribute("currentBook", currentBook)
 
         // Pages
-        val pages = pageRepo.findAllBySource(currentBook.fullSource).sortedBy { it.sortOrder }
+        val pages = pageRepo.findAllByBookFullSource(currentBook.fullSource).sortedBy { it.sortOrder }
         val hasPages = pages.any { it.sortOrder > 1 }
         val currentPage = pageParam?.let { pageLink ->
             pages.firstOrNull { page -> page.linkName == pageLink }
@@ -84,7 +84,7 @@ class BookController(
         val displayPages =
             if (hasPages) listOf(currentPage.sortOrder)
             else (0..1).toList()
-        val lines = contentRepo.findAllBySourceAndPageSortOrderIn(currentBook.fullSource, displayPages)
+        val lines = contentRepo.findAllByPageBookFullSourceAndPageSortOrderIn(currentBook.fullSource, displayPages)
 
         // Page 0 is "Titullapa" and unpaged books are all page 1
         val lookupPage = currentPage.let {
