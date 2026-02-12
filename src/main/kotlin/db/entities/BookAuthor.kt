@@ -10,7 +10,7 @@ data class BookAuthor(
 
     @MapsId("source")
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "source", referencedColumnName = "fullSourceCode")
+    @JoinColumn(name = "source", referencedColumnName = Book.FULL_SOURCE_CODE)
     val book: Book,
 
     @MapsId("authorId")

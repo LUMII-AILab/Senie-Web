@@ -29,7 +29,7 @@ data class Book(
     val orderInCollection: Int?,
     @ManyToMany(fetch = LAZY)
     @JoinTable(name="books_genres",
-            joinColumns= [JoinColumn(name="source", referencedColumnName="fullSourceCode")],
+            joinColumns= [JoinColumn(name="source", referencedColumnName=FULL_SOURCE_CODE)],
             inverseJoinColumns= [JoinColumn(name="genre_id", referencedColumnName="id")]
         )
     @OrderBy("subgenre, name")
@@ -54,4 +54,8 @@ data class Book(
         get() = "$name ($displayCode)"
 
     enum class IndexType { GNP, GLR, LR, P }
+
+    companion object {
+        const val FULL_SOURCE_CODE = "fullSourceCode"
+    }
 }
