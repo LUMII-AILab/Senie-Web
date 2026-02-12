@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository
 import org.springframework.data.repository.query.Param
 
 interface BookRepository : CrudRepository<Book, Int> {
-    fun findByFullSource(itemCode: String): Book?
+    fun findByFullSourceCode(itemCode: String): Book?
 
     @Query("SELECT b FROM Book b WHERE b.itemCode IS NULL AND b.collectionCode = :code")
     fun findCollection(@Param("code") collectionCode: String): Book?
