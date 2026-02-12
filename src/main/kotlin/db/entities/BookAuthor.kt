@@ -10,7 +10,7 @@ data class BookAuthor(
 
     @MapsId("source")
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "source", referencedColumnName = "fullSource")
+    @JoinColumn(name = "source", referencedColumnName = "fullSourceCode")
     val book: Book,
 
     @MapsId("authorId")
@@ -18,9 +18,10 @@ data class BookAuthor(
     @JoinColumn(name = "author_id")
     val author: Author,
 
-    /* This is a property describing author's relation to a book, not author itself. */
-    @Column("cover_author") // TODO: Rename column to match
+    @Column("is_cover_author")
     val isCoverAuthor: Boolean,
+    @Column("is_fragment_author")
+    val isFragmentAuthor: Boolean,
 ) {
     class CompositeId {
         var source: String? = null

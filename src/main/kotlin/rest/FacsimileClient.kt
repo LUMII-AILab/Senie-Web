@@ -44,9 +44,9 @@ class FacsimileClient(
                     Pair(length, ext)
                 }
             }
-        val dirUrl = "$baseUrl/${book.fullSource.replace("::", "/")}/${book.itemCode}"
+        val dirUrl = "$baseUrl/${book.fullSourceCode.replace("::", "/")}/${book.itemCode}"
 
-        logger.debug("Looking for facsimile image for ${book.fullSource}, page ${page.displayName} (${page.sortOrder})...")
+        logger.debug("Looking for facsimile image for ${book.fullSourceCode}, page ${page.displayName} (${page.sortOrder})...")
         return permutations.firstNotNullOfOrNull { (length, extension) ->
             val fileName = "${page.displayName}".padStart(length, '0') + ".$extension"
             val fileUrl = "$dirUrl/${fileName.urlEncode()}"

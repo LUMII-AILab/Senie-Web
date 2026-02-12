@@ -31,7 +31,7 @@ class BookController(
     fun collection(@PathVariable("code") code: String): RedirectView {
         // Getting the first book only could be one in SQL/JPQL, but collections are small and this is simpler
         val book = bookRepo.findAllInCollection(code).sortedBy { it.orderInCollection }.first()
-        return RedirectView("/books/${book.fullSource.urlEncode()}")
+        return RedirectView("/books/${book.fullSourceCode.urlEncode()}")
     }
 
     /**
@@ -44,7 +44,7 @@ class BookController(
         model: Model,
     ): String {
         // Book / collection
-        val currentBook = bookRepo.findByFullSource(source) ?: throw bookNotFound(source)
+        val currentBook = bookRepo.findByFullSourceCode(source) ?: throw bookNotFound(source)
         val collection = currentBook.collectionCode?.let(bookRepo::findCollection)
         model.addAttribute("pageTitle", collection?.displayTitle ?: currentBook.displayTitle)
         if (collection != null) {
@@ -63,11 +63,11 @@ class BookController(
         model.addAttribute("currentBook", currentBook)
 
         // Pages
-        val pages = pageRepo.findAllByBookFullSource(currentBook.fullSource).sortedBy { it.sortOrder }
+        val pages = pageRepo.findAllByBookFullSourceCode(currentBook.fullSourceCode).sortedBy { it.sortOrder }
         val hasPages = pages.any { it.sortOrder > 1 }
         val currentPage = pageParam?.let { pageLink ->
             pages.firstOrNull { page -> page.linkName == pageLink }
-                ?: throw CommonFailures.pageNotFound(pageLink, currentBook.fullSource)
+                ?: throw CommonFailures.pageNotFound(pageLink, currentBook.fullSourceCode)
         } ?: pages.first()
         val prevPage = pages[(pages.indexOf(currentPage) - 1).coerceAtLeast(0)]
             .takeUnless { it == currentPage }
@@ -84,7 +84,7 @@ class BookController(
         val displayPages =
             if (hasPages) listOf(currentPage.sortOrder)
             else (0..1).toList()
-        val lines = contentRepo.findAllByPageBookFullSourceAndPageSortOrderIn(currentBook.fullSource, displayPages)
+        val lines = contentRepo.findAllByPageBookFullSourceCodeAndPageSortOrderIn(currentBook.fullSourceCode, displayPages)
 
         // Page 0 is "Titullapa" and unpaged books are all page 1
         val lookupPage = currentPage.let {

@@ -10,7 +10,7 @@ data class Page(
     @Id val id: Int,
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "source", referencedColumnName = "fullSource")
+    @JoinColumn(name = "source", referencedColumnName = "fullSourceCode")
     val book: Book,
 
     val name: String?,

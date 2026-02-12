@@ -5,6 +5,6 @@ import org.springframework.data.repository.CrudRepository
 
 interface BookAuthorRepository : CrudRepository<BookAuthor, Int> {
 
-    fun findAllByBookFullSourceOrderByAuthorName(source: String): List<BookAuthor>
+    fun findAllByBookFullSourceCodeOrderByAuthorName(source: String): List<BookAuthor>
 
 }

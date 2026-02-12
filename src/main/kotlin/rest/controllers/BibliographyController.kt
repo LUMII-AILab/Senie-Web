@@ -2,7 +2,6 @@ package lv.ailab.senie.rest.controllers
 
 import lv.ailab.senie.db.repositories.BookAuthorRepository
 import lv.ailab.senie.db.repositories.BookRepository
-import lv.ailab.senie.db.repositories.GenreRepository
 import lv.ailab.senie.rest.BiblioImageClient
 import lv.ailab.senie.rest.CommonFailures.bookNotFound
 import org.slf4j.LoggerFactory
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable
 class BibliographyController(
     private val bookRepo: BookRepository,
     private val authorRepo: BookAuthorRepository,
-    private val genreRepo: GenreRepository,
     private val imageClient: BiblioImageClient,
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
@@ -26,16 +24,18 @@ class BibliographyController(
         model: Model,
     ): String {
 
-        val currentBook = bookRepo.findByFullSource(source) ?: throw bookNotFound(source)
+        val currentBook = bookRepo.findByFullSourceCode(source) ?: throw bookNotFound(source)
         val collection = currentBook.collectionCode?.let(bookRepo::findCollection)
-        val itemAuthors = authorRepo.findAllByBookFullSourceOrderByAuthorName(source).partition {
-            author -> author.isCoverAuthor
-        }
-        val itemTopAuthors = itemAuthors.first.joinToString { ba -> ba.author.name }
-        val otherItemAuthors = itemAuthors.second.joinToString { ba -> ba.author.name }
+        val itemAuthors = authorRepo.findAllByBookFullSourceCodeOrderByAuthorName(source)
+        val itemTopAuthors = itemAuthors
+            .filter { ba -> ba.isCoverAuthor }
+            .joinToString { ba -> ba.author.name }
+        val otherItemAuthors = itemAuthors
+            .filter { ba -> ba.isFragmentAuthor }
+            .joinToString { ba -> ba.author.name }
         val collectionTopAuthors = currentBook.collectionCode?.let {
-            authorRepo.findAllByBookFullSourceOrderByAuthorName(currentBook.collectionCode)
-                .filter { author -> author.isCoverAuthor }
+            authorRepo.findAllByBookFullSourceCodeOrderByAuthorName(currentBook.collectionCode)
+                .filter { ba -> ba.isCoverAuthor }
                 .joinToString { ba -> ba.author.name }
         }
         val displayYear =
@@ -48,7 +48,7 @@ class BibliographyController(
                 else collection.year1
             }
         }
-        val genres = genreRepo.findGenres(currentBook.collectionCode ?: source)
+        val genres = (collection ?: currentBook).genres
         // Built-in assumption that there is only one `subgenre = FALSE` item for each book.
         val mainGenre = genres.firstOrNull()?.name
         val subGenres = genres.subList(1, genres.size).joinToString { genre -> genre.name }

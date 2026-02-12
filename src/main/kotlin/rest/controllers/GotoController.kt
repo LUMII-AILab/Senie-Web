@@ -27,7 +27,7 @@ import java.util.*
                 Triple(line.page.book, line.page.name, line)
             }
             source != null -> {
-                val book = bookRepo.findByFullSource(source) ?: throw bookNotFound(source)
+                val book = bookRepo.findByFullSourceCode(source) ?: throw bookNotFound(source)
                 Triple(book, inputPage, null)
             }
             else -> throw Exception("`/goto` adresei nepieciešams `address` vai `source` parametrs.")
